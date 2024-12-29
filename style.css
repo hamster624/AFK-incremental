@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-block-start: 50px;
+    background-color: black;
+    color: white;
+  }
+  
+  #value, #rebirths {
+    font-size: 2em;
+    margin: 20px 0;
+  }
+  
+  .upgrade {
+    margin: 10px 0;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 1em;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  #adminPanel {
+    margin-block-start: 40px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+  }
+  
+  #adminPanel input {
+    padding: 5px;
+    font-size: 1em;
+    margin-inline-end: 10px;
+  }
+  
+  #adminPanel button {
+    padding: 10px;
+    font-size: 1em;
+  }
+  
