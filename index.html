@@ -11,11 +11,15 @@
   <div id="value">2</div>
   <div id="rebirths">Rebirths: 0</div>
   <div class="upgrade">
-    <button onclick="buyUpgrade1()">Upgrade 1: Increase Exponent (^n) | Cost: <span id="upg1Cost">2</span></button>
+    <button onclick="buyUpgrade1()">Upgrade 1: Increase Exponent (^n) | Cost: <span id="upg1Cost">2</span> <span id="Exponent">Exponent: 2</span></button>
   </div>
-  <button onclick="rebirth()">Rebirth (Cost:E50#2)</button>
+  <div class="upgrade">
+    <button onclick="buyUpgrade2()">Upgrade 2: Multiply Exponent by 1.5 | Cost: 10 Rebirths</button>
+  </div>  
+  <button onclick="rebirth()">Rebirth (Cost:ee50)</button>
   <button onclick="resetGame()">Reset Game</button>
   <script src="ExpantaNum.js"></script>
+  <script src="format.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
