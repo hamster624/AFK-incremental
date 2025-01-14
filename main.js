@@ -60,7 +60,7 @@ function saveGame() {
         rebirths: rebirths.toString(),
         exponent: exponent.toString(),
         upg1Cost: upg1Cost.toString(),
-        upg2Cost: upg1Cost.toString(),
+        upg2Cost: upg2Cost.toString(),
     });
     const { obfuscatedData, shift } = obfuscateData(saveData);
     const encodedData = toBase64(obfuscatedData);
@@ -106,7 +106,7 @@ function buyUpgrade1() {
 function buyUpgrade2() {
   if (rebirths.gte(upg2Cost)) {
     rebirths = rebirths.minus(upg2Cost);
-    upg2Cost = upg2Cost.mult(1.3);
+    upg2Cost = upg2Cost.times(1.3);
     exponent = exponent.times(1.5);
     updateDisplay();
   }
@@ -126,6 +126,7 @@ function updateDisplay() {
   document.getElementById("value").innerText = format(value, precision=2, small=false);
   document.getElementById("rebirths").innerText = `Rebirths: ${format(rebirths, precision=2, small=false)}`;
   document.getElementById("upg1Cost").innerText = format(upg1Cost, precision=2, small=false);
+  document.getElementById("upg2Cost").innerText = format(upg2Cost, precision=2, small=false);
   document.getElementById("Exponent").innerText = `Exponent: ${format(exponent, precision=2, small=false)}`;
 }
 
