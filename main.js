@@ -1,13 +1,15 @@
 let value = new ExpantaNum(2);
 let rebirths = new ExpantaNum(0);
+let amountupg1 = new ExpantaNum(0);
+let amountupg2 = new ExpantaNum(0);
 let exponent = new ExpantaNum(2);
 let upg1Cost = new ExpantaNum(1);
 let upg2Cost = new ExpantaNum(10);
 
-const rebirthThreshold = new ExpantaNum("1ee50");
+const rebirthThreshold = new ExpantaNum("ee50");
 function updateValue() {
   value = value.pow(exponent);
-  document.getElementById("value").innerText = format(value, precision=2, small=false);
+  document.getElementById("value").innerText = format(value, 2);
 }
 function obfuscateData(str) {
     const shift = Math.floor(Math.random() * 256);
@@ -61,6 +63,8 @@ function saveGame() {
         exponent: exponent.toString(),
         upg1Cost: upg1Cost.toString(),
         upg2Cost: upg2Cost.toString(),
+        amountupg1: amountupg1.toString(),
+        amountupg2: amountupg2.toString()
     });
     const { obfuscatedData, shift } = obfuscateData(saveData);
     const encodedData = toBase64(obfuscatedData);
@@ -81,6 +85,8 @@ function loadGame() {
             exponent = new ExpantaNum(gameData.exponent);
             upg1Cost = new ExpantaNum(gameData.upg1Cost);
             upg2Cost = new ExpantaNum(gameData.upg2Cost);
+            amountupg1 = new ExpantaNum(gameData.amountupg1);
+            amountupg2 = new ExpantaNum(gameData.amountupg2);
             updateDisplay();
         }
     }
@@ -89,7 +95,7 @@ function loadGame() {
 function rebirth() {
   if (value.gte(rebirthThreshold)) {
     const earnedRebirths = value.log10().log10().log10();
-    rebirths = rebirths.plus(earnedRebirths);
+    rebirths = rebirths.add(earnedRebirths);
     value = new ExpantaNum(2);
     updateDisplay();
   }
@@ -97,17 +103,17 @@ function rebirth() {
 
 function buyUpgrade1() {
   if (rebirths.gte(upg1Cost)) {
-    rebirths = rebirths.minus(upg1Cost);
-    exponent = exponent.plus(1);
+    rebirths = rebirths.sub(upg1Cost);
+    amountupg1 = amountupg1.add(1);
     upg1Cost = upg1Cost.add(1);
     updateDisplay();
   }
 }
 function buyUpgrade2() {
   if (rebirths.gte(upg2Cost)) {
-    rebirths = rebirths.minus(upg2Cost);
-    upg2Cost = upg2Cost.times(1.3);
-    exponent = exponent.times(1.5);
+    rebirths = rebirths.sub(upg2Cost);
+    upg2Cost = upg2Cost.mul(1.3);
+    amountupg2 = amountupg2.add(1.5);
     updateDisplay();
   }
 }
@@ -117,18 +123,30 @@ function resetGame() {
   rebirths = new ExpantaNum(0);
   exponent = new ExpantaNum(2);
   upg1Cost = new ExpantaNum(1);
+  upg2Cost = new ExpantaNum(10);
+  amountupg1 = new ExpantaNum(0);
+  amountupg2 = new ExpantaNum(0);
   localStorage.removeItem("afksave");
   saveGame();
   updateDisplay();
 }
 
-function updateDisplay() {
-  document.getElementById("value").innerText = format(value, precision=2, small=false);
-  document.getElementById("rebirths").innerText = `Rebirths: ${format(rebirths, precision=2, small=false)}`;
-  document.getElementById("upg1Cost").innerText = format(upg1Cost, precision=2, small=false);
-  document.getElementById("upg2Cost").innerText = format(upg2Cost, precision=2, small=false);
-  document.getElementById("Exponent").innerText = `Exponent: ${format(exponent, precision=2, small=false)}`;
+function recalcExponent() {
+  let base = new ExpantaNum(2);
+  let withUpg1 = base.add(amountupg1);
+  let factor = amountupg2.eq(0) ? new ExpantaNum(1) : amountupg2;
+  exponent = withUpg1.mul(factor);
 }
+
+function updateDisplay() {
+  recalcExponent();
+  document.getElementById("value").innerText    = format(value, 2);
+  document.getElementById("rebirths").innerText = `Rebirths: ${format(rebirths, 2)}`;
+  document.getElementById("upg1Cost").innerText = format(upg1Cost, 2);
+  document.getElementById("upg2Cost").innerText = format(upg2Cost, 2);
+  document.getElementById("Exponent").innerText = `Exponent: ${format(exponent, 2)}`;
+}
+
 
 setInterval(() => {
   updateValue();
